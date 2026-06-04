@@ -9,10 +9,11 @@
   },
   "build": {
     "appId": "com.susantang.standupbreak",
-    "productName": "Stand Up Break",
+    "productName": "Standup Break",
     "mac": {
       "category": "public.app-category.utilities",
-      "target": [{ "target": "dmg", "arch": ["arm64", "x64"] }]
+      "icon": "assets/icon.icns",
+      "target": [{ "target": "dmg", "arch": ["arm64"] }]
     },
     "files": ["src/**/*", "assets/**/*"],
     "directories": {
@@ -24,6 +25,6 @@
     "electron-builder": "^24.0.0"
   },
   "dependencies": {
-    "@lottiefiles/dotlottie-web": "^0.37.0"
+    "lottie-web": "^5.12.2"
   }
 }

@@ -1,12 +1,30 @@
-const { app, BrowserWindow, screen, Tray, Menu, nativeImage } = require('electron');
+const { app, BrowserWindow, screen, Tray, Menu, nativeImage, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
+// ── Persist settings to userData/config.json ────────────────────────────────
+const configPath = () => path.join(app.getPath('userData'), 'config.json');
+
+function loadConfig() {
+  try {
+    return JSON.parse(fs.readFileSync(configPath(), 'utf8'));
+  } catch {
+    return { intervalMinutes: 30 };
+  }
+}
+
+function saveConfig(data) {
+  fs.writeFileSync(configPath(), JSON.stringify(data, null, 2));
+}
+
+// ── State ────────────────────────────────────────────────────────────────────
 let overlayWindow = null;
+let settingsWindow = null;
 let tray = null;
-let reminderInterval = null;
+let reminderTimer = null;
+let config = loadConfig();
 
-const REMINDER_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
-
+// ── Overlay ──────────────────────────────────────────────────────────────────
 function createOverlay() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
@@ -29,50 +47,76 @@ function createOverlay() {
 
   overlayWindow.setIgnoreMouseEvents(true);
   overlayWindow.loadFile(path.join(__dirname, 'overlay.html'));
-
-  // Close overlay after animation completes (~6 seconds)
-  overlayWindow.once('ready-to-show', () => {
-    overlayWindow.showInactive();
-  });
-
-  overlayWindow.on('closed', () => {
-    overlayWindow = null;
-  });
+  overlayWindow.once('ready-to-show', () => overlayWindow.showInactive());
+  overlayWindow.on('closed', () => { overlayWindow = null; });
 }
 
 function showReminder() {
-  if (overlayWindow) return; // already showing
+  if (overlayWindow) return;
   createOverlay();
-
-  setTimeout(() => {
-    if (overlayWindow) {
-      overlayWindow.close();
-    }
-  }, 13000);
+  setTimeout(() => { overlayWindow?.close(); }, 13000);
 }
 
+// ── Timer ────────────────────────────────────────────────────────────────────
 function startTimer() {
-  showReminder(); // show once immediately on launch
-  reminderInterval = setInterval(showReminder, REMINDER_INTERVAL_MS);
+  if (reminderTimer) clearInterval(reminderTimer);
+  const ms = config.intervalMinutes * 60 * 1000;
+  reminderTimer = setInterval(showReminder, ms);
 }
 
+// ── Settings window ──────────────────────────────────────────────────────────
+function openSettings() {
+  if (settingsWindow) { settingsWindow.focus(); return; }
+
+  settingsWindow = new BrowserWindow({
+    width: 400,
+    height: 280,
+    resizable: false,
+    titleBarStyle: 'hiddenInset',
+    title: 'Stand Up Break — Settings',
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+
+  settingsWindow.loadFile(path.join(__dirname, 'settings.html'));
+  settingsWindow.on('closed', () => { settingsWindow = null; });
+}
+
+// ── IPC handlers ─────────────────────────────────────────────────────────────
+ipcMain.handle('get-interval', () => config.intervalMinutes);
+
+ipcMain.handle('set-interval', (_, minutes) => {
+  config.intervalMinutes = minutes;
+  saveConfig(config);
+  startTimer(); // restart with new interval
+});
+
+// ── App ready ────────────────────────────────────────────────────────────────
 app.whenReady().then(() => {
-  // Tray icon (blank 1x1 so we don't need an icon file to start)
-  const emptyIcon = nativeImage.createEmpty();
-  tray = new Tray(emptyIcon);
+  const iconPath = path.join(__dirname, '..', 'assets', 'tray-icon.png');
+  const trayIcon = nativeImage.createFromPath(iconPath).resize({ width: 22, height: 22 });
+  // Do NOT set template — colored icon is always visible regardless of menu bar style
+  tray = new Tray(trayIcon);
   tray.setToolTip('Stand Up Break');
 
-  const menu = Menu.buildFromTemplate([
+  const buildMenu = () => Menu.buildFromTemplate([
+    { label: `Remind every ${config.intervalMinutes} min`, enabled: false },
+    { type: 'separator' },
     { label: 'Show Now', click: showReminder },
+    { label: 'Settings…', click: openSettings },
     { type: 'separator' },
     { label: 'Quit', click: () => app.quit() },
   ]);
-  tray.setContextMenu(menu);
 
+  tray.setContextMenu(buildMenu());
+
+  // Rebuild menu after settings change so interval label updates
+  ipcMain.on('menu-refresh', () => tray.setContextMenu(buildMenu()));
+
+  showReminder();   // show once on launch
   startTimer();
 });
 
-app.on('window-all-closed', (e) => {
-  // Keep app running even when all windows are closed
-  e.preventDefault();
-});
+app.on('window-all-closed', (e) => e.preventDefault());
