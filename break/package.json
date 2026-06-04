@@ -1,0 +1,29 @@
+{
+  "name": "stand-up-break",
+  "version": "1.0.0",
+  "description": "A Mac desktop app that reminds you to stand up with a flying bird animation.",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --mac dmg"
+  },
+  "build": {
+    "appId": "com.susantang.standupbreak",
+    "productName": "Stand Up Break",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [{ "target": "dmg", "arch": ["arm64", "x64"] }]
+    },
+    "files": ["src/**/*", "assets/**/*"],
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "dependencies": {
+    "@lottiefiles/dotlottie-web": "^0.37.0"
+  }
+}
