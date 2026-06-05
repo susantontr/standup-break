@@ -2,6 +2,8 @@
 
 A tiny Mac menu bar app that sends a cute flying toucan across your screen to remind you to stand up and take a break.
 
+![Standup Break demo](assets/demo.gif)
+
 ---
 
 ## Why
