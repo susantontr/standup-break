@@ -2,8 +2,6 @@
 
 A tiny Mac menu bar app that sends a cute flying toucan across your screen to remind you to stand up and take a break.
 
-![Standup Break demo](assets/demo.gif)
-
 ---
 
 ## Why
@@ -24,7 +22,7 @@ It's easy to sit for hours without noticing. Standup Break gives you a playful n
 
 ## Download
 
-👉 **[Download the latest `.dmg`](../../releases/latest)**
+👉 **[Download the latest `.dmg`](https://github.com/susantontr/standup-break/releases/latest)**
 
 Requires macOS 10.12+ on Apple Silicon (M1/M2/M3/M4).
 
