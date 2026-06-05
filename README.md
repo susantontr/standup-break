@@ -36,7 +36,7 @@ The **WHO**, **NHS**, and **Mayo Clinic** all recommend breaking up sitting ever
 
 👉 **[Download the latest `.dmg`](https://github.com/susantontr/standup-break/releases/latest)**
 
-Requires macOS 10.12+ on Apple Silicon (M1/M2/M3/M4).
+Requires macOS 10.12+ on Apple Silicon (M1/M2/M3/M4). Windows version coming soon!
 
 ### Install
 1. Open the `.dmg` file
