@@ -5,7 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --mac dmg"
+    "dist": "electron-builder --mac dmg",
+    "dist:win": "electron-builder --win nsis"
   },
   "build": {
     "appId": "com.susantang.standupbreak",
@@ -14,6 +15,10 @@
       "category": "public.app-category.utilities",
       "icon": "assets/icon.icns",
       "target": [{ "target": "dmg", "arch": ["arm64"] }]
+    },
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [{ "target": "nsis", "arch": ["x64"] }]
     },
     "files": ["src/**/*"],
     "extraResources": [{ "from": "assets", "to": "assets" }],
