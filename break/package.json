@@ -15,7 +15,8 @@
       "icon": "assets/icon.icns",
       "target": [{ "target": "dmg", "arch": ["arm64"] }]
     },
-    "files": ["src/**/*", "assets/**/*"],
+    "files": ["src/**/*"],
+    "extraResources": [{ "from": "assets", "to": "assets" }],
     "directories": {
       "output": "dist"
     }

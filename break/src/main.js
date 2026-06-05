@@ -95,9 +95,11 @@ ipcMain.handle('set-interval', (_, minutes) => {
 
 // ── App ready ────────────────────────────────────────────────────────────────
 app.whenReady().then(() => {
-  const iconPath = path.join(__dirname, '..', 'assets', 'tray-icon.png');
+  const devIconPath = path.join(__dirname, '..', 'assets', 'tray-icon.png');
+  const iconPath = fs.existsSync(devIconPath)
+    ? devIconPath
+    : path.join(process.resourcesPath, 'assets', 'tray-icon.png');
   const trayIcon = nativeImage.createFromPath(iconPath).resize({ width: 22, height: 22 });
-  // Do NOT set template — colored icon is always visible regardless of menu bar style
   tray = new Tray(trayIcon);
   tray.setToolTip('Stand Up Break');
 
