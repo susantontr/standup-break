@@ -10,6 +10,16 @@ A tiny Mac menu bar app that sends a cute flying toucan across your screen to re
 
 It's easy to sit for hours without noticing. Standup Break gives you a playful nudge — no annoying popups, just a toucan flying by.
 
+Research shows that prolonged sitting is seriously bad for your health:
+
+- 🫀 Raises heart disease risk by up to **147%** *(Annals of Internal Medicine, 2015)*
+- 🩸 Increases blood sugar and insulin resistance
+- 🔥 Slows your metabolism
+- 🦴 Causes back, neck, and hip pain
+- 🧠 Reduces focus and energy levels
+
+The **WHO**, **NHS**, and **Mayo Clinic** all recommend breaking up sitting every **30–60 minutes** — even a 2-minute stand makes a difference. Standup Break makes it impossible to forget.
+
 ---
 
 ## Features
