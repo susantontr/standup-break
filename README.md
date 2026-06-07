@@ -101,9 +101,14 @@ npm run dist
 
 ---
 
+## Bug Reports & Feedback
+
+Found a bug or have a suggestion? Please open an issue here:
+👉 **[github.com/susantontr/standup-break/issues](https://github.com/susantontr/standup-break/issues)**
+
 ## Contributing
 
-Got ideas? Found a bug? PRs and issues are welcome! 🙌
+Got ideas? PRs are welcome! 🙌
 
 ---
 
