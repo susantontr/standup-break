@@ -42,11 +42,24 @@ The **WHO**, **NHS**, and **Mayo Clinic** all recommend breaking up sitting ever
 **Mac:** Requires macOS 10.12+ on Apple Silicon (M1/M2/M3/M4)
 **Windows:** Requires Windows 10 or later (64-bit)
 
-### Install
+### Install — Mac
 1. Open the `.dmg` file
 2. Drag **Standup Break** to your Applications folder
-3. Open it — if macOS warns about an unidentified developer, go to:
-   **System Settings → Privacy & Security → Open Anyway**
+3. Try to open it
+
+> ⚠️ **macOS "damaged" warning?** This happens because the app isn't yet enrolled in the Apple Developer Program. It's completely safe — just follow these steps to fix it:
+>
+> 1. Open **Terminal**
+> 2. Type `xattr -cr ` (with a space at the end — don't hit Enter yet)
+> 3. Open **Finder** → go to your **Applications** folder
+> 4. Drag and drop **Standup Break.app** into the Terminal window (it auto-fills the path)
+> 5. Now hit **Enter**
+> 6. Try opening the app again ✅
+
+### Install — Windows
+1. Run the `.exe` installer
+2. Follow the prompts
+3. The app starts automatically and lives in your system tray (bottom-right near the clock)
 
 ---
 
